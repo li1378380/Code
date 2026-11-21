@@ -1,0 +1,10 @@
+print("python")
+print("\tpython")
+print("language:\npython\nc\nJavaScript")
+favourite_language=' python '
+print('['+favourite_language +']')
+print('['+favourite_language.rstrip()+']')
+print('['+favourite_language.lstrip()+']')
+print('['+favourite_language.strip()+']')
+favourite_language.strip()
+print('['+favourite_language +']')
