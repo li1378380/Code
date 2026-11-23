@@ -1,0 +1,126 @@
+{
+  "generatedAt": "2026-11-23T20:50:29+08:00",
+  "files": [
+    {
+      "path": "D:\\Code\\hello.py",
+      "lines": 4,
+      "chapter": "ch2",
+      "mtime": "2026-11-13T15:05:03+08:00"
+    },
+    {
+      "path": "D:\\Code\\hello_world.py",
+      "lines": 7,
+      "chapter": "ch2",
+      "mtime": "2026-11-21T10:11:49+08:00"
+    },
+    {
+      "path": "D:\\Code\\practice\\01_变量.py",
+      "lines": 4,
+      "chapter": "ch2",
+      "mtime": "2026-11-21T10:30:04+08:00"
+    },
+    {
+      "path": "D:\\Code\\practice\\02_字符串.py",
+      "lines": 6,
+      "chapter": "ch2",
+      "mtime": "2026-11-21T10:58:28+08:00"
+    },
+    {
+      "path": "D:\\Code\\practice\\03列表.py",
+      "lines": 11,
+      "chapter": "ch3",
+      "mtime": "2026-11-22T20:46:48+08:00"
+    },
+    {
+      "path": "D:\\Code\\practice\\修改，添加，删除元素.py",
+      "lines": 25,
+      "chapter": "ch3",
+      "mtime": "2026-11-22T21:49:54+08:00"
+    },
+    {
+      "path": "D:\\Code\\practice\\删除前缀.py",
+      "lines": 2,
+      "chapter": "ch2",
+      "mtime": "2026-11-21T14:08:42+08:00"
+    },
+    {
+      "path": "D:\\Code\\practice\\制表符或换行符.py",
+      "lines": 10,
+      "chapter": "ch2",
+      "mtime": "2026-11-21T13:59:35+08:00"
+    },
+    {
+      "path": "D:\\Code\\practice\\字符串加变量.py",
+      "lines": 7,
+      "chapter": "ch2",
+      "mtime": "2026-11-21T13:20:24+08:00"
+    },
+    {
+      "path": "D:\\Code\\practice\\数.py",
+      "lines": 19,
+      "chapter": "ch2",
+      "mtime": "2026-11-21T19:39:05+08:00"
+    },
+    {
+      "path": "D:\\Code\\practice\\注释.py",
+      "lines": 4,
+      "chapter": "ch2",
+      "mtime": "2026-11-21T19:50:46+08:00"
+    }
+  ],
+  "chapters": [
+    {
+      "id": "ch2",
+      "title": "第2章 变量与简单数据类型",
+      "fileCount": 9,
+      "lines": 63
+    },
+    {
+      "id": "ch3",
+      "title": "第3章 列表",
+      "fileCount": 2,
+      "lines": 36
+    },
+    {
+      "id": "ch4",
+      "title": "第4章 操作列表",
+      "fileCount": 0,
+      "lines": 0
+    },
+    {
+      "id": "uncategorized",
+      "title": "未分类",
+      "fileCount": 0,
+      "lines": 0
+    }
+  ],
+  "gitCommits": [
+    {
+      "date": "2026-11-22",
+      "subject": "练习：第 3 章 列表操作（修改、添加、删除元素）"
+    },
+    {
+      "date": "2026-11-21",
+      "subject": "完成第二章：变量、字符串、数、注释与 Python 之禅"
+    },
+    {
+      "date": "2026-11-21",
+      "subject": "练习：字符串方法与 removeprefix"
+    },
+    {
+      "date": "2026-11-21",
+      "subject": "练习：第 2 章 字符串方法与 f-string"
+    },
+    {
+      "date": "2026-11-13",
+      "subject": "第一个项目：开始学 Python"
+    }
+  ],
+  "summary": {
+    "totalFiles": 11,
+    "totalLines": 99,
+    "commitCount": 5,
+    "firstCommit": "2026-11-13",
+    "lastCommit": "2026-11-22"
+  }
+}

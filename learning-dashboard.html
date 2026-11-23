@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>我的 Python 学习进度</title>
+<style>
+  :root {
+    --bg: #070b12;
+    --panel: #101826;
+    --panel-2: #0c1320;
+    --line: rgba(148, 163, 184, 0.16);
+    --text: #e8eef8;
+    --muted: #9aa8bd;
+    --faint: #64748b;
+    --blue: #5aa8ff;
+    --teal: #3ddbc6;
+    --green: #3ddc97;
+    --radius: 18px;
+    --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    font-family: "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    background:
+      radial-gradient(1100px 560px at 12% -8%, rgba(90, 168, 255, 0.16), transparent 62%),
+      radial-gradient(900px 520px at 100% 4%, rgba(61, 219, 198, 0.09), transparent 58%),
+      var(--bg);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    width: min(1080px, 100%);
+    margin: 0 auto;
+    padding: clamp(24px, 4vw, 56px) clamp(18px, 4vw, 40px) 34px;
+  }
+  .hero { margin-bottom: clamp(28px, 4vw, 44px); }
+  .hero-top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; margin-bottom: 14px;
+  }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 0.22em; color: var(--blue);
+    font-weight: 600;
+  }
+  .pill {
+    font-size: 12px; color: var(--muted);
+    border: 1px solid var(--line); padding: 4px 12px;
+    border-radius: 999px; background: rgba(255, 255, 255, 0.03);
+  }
+  h1 {
+    margin: 0 0 12px; font-size: clamp(30px, 5.2vw, 46px);
+    line-height: 1.15; letter-spacing: -0.02em; font-weight: 700;
+  }
+  .hero-lead {
+    margin: 0 0 10px; color: var(--muted);
+    font-size: clamp(14px, 1.8vw, 16px);
+  }
+  .generated { margin: 0; color: var(--faint); font-size: 13px; }
+  .generated time { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .section { margin-bottom: clamp(28px, 4vw, 42px); }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    flex-wrap: wrap; gap: 14px; margin-bottom: 14px;
+  }
+  .section-head h2 {
+    margin: 0; font-size: 17px; letter-spacing: 0.02em; font-weight: 650;
+  }
+  .section-head h2::before {
+    content: ""; display: inline-block; width: 4px; height: 16px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--blue), var(--teal));
+    margin-right: 10px; vertical-align: -3px;
+  }
+  .section-note {
+    font-size: 12.5px; color: var(--faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .stat-card {
+    position: relative; overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015)),
+      var(--panel);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 18px 16px; box-shadow: var(--shadow);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .stat-card::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 2px;
+    background: linear-gradient(90deg, var(--blue), rgba(61, 219, 198, 0.4) 60%, transparent);
+    opacity: 0.7;
+  }
+  .stat-label {
+    display: block; font-size: 12.5px; color: var(--muted);
+    letter-spacing: 0.06em; margin-bottom: 8px;
+  }
+  .stat-value {
+    display: flex; align-items: baseline; gap: 5px;
+    font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+  }
+  .stat-value .num { font-size: clamp(30px, 4vw, 38px); line-height: 1.1; }
+  .stat-value small { font-size: 13px; font-weight: 500; color: var(--faint); }
+  .stat-foot { display: block; margin-top: 10px; font-size: 12px; color: var(--faint); }
+  .stat-dates::before {
+    background: linear-gradient(90deg, var(--green), rgba(61, 219, 198, 0.35), transparent);
+  }
+  .date-pair { display: grid; gap: 6px; }
+  .date-item {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  }
+  .date-k { font-size: 11.5px; color: var(--faint); }
+  .date-v {
+    font-size: 15px; font-weight: 600; color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .chapter-grid {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .chapter-card {
+    display: flex; flex-direction: column; gap: 12px;
+    min-height: 168px; padding: 16px;
+    background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .chapter-top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 8px;
+  }
+  .chapter-title {
+    margin: 0; font-size: 14px; line-height: 1.5; font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .badge {
+    flex-shrink: 0; font-size: 11px; padding: 2px 8px;
+    border-radius: 999px; border: 1px solid transparent; white-space: nowrap;
+  }
+  .badge-live {
+    color: var(--green); border-color: rgba(61, 220, 151, 0.32);
+    background: rgba(61, 220, 151, 0.08);
+  }
+  .badge-empty {
+    color: var(--faint); border-color: rgba(148, 163, 184, 0.22);
+    background: rgba(148, 163, 184, 0.08);
+  }
+  .chapter-stats { display: flex; gap: 18px; }
+  .chapter-stat { display: flex; align-items: baseline; gap: 4px; }
+  .chapter-num {
+    font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .chapter-unit { font-size: 11.5px; color: var(--faint); }
+  .bar {
+    height: 5px; margin-top: auto; border-radius: 999px; overflow: hidden;
+    background: rgba(148, 163, 184, 0.12);
+  }
+  .bar-fill {
+    display: block; height: 100%; border-radius: inherit;
+    background: linear-gradient(90deg, var(--blue), var(--teal));
+  }
+  .chapter-share { margin: -4px 0 0; font-size: 11.5px; color: var(--faint); }
+  .chapter-card.is-empty {
+    background: rgba(148, 163, 184, 0.035);
+    border-color: rgba(148, 163, 184, 0.1);
+  }
+  .chapter-card.is-empty .chapter-title,
+  .chapter-card.is-empty .chapter-num { color: var(--faint); }
+  .chapter-card.is-empty .bar-fill { background: transparent; }
+  .chapter-card.is-empty .chapter-share { color: rgba(148, 163, 184, 0.6); }
+  .columns {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 20px; align-items: start;
+  }
+  .timeline {
+    position: relative; list-style: none; margin: 0;
+    padding: 20px 20px 20px 18px;
+    background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .timeline::before {
+    content: ""; position: absolute; left: 12px; top: 28px; bottom: 28px;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(90, 168, 255, 0.55), rgba(61, 219, 198, 0.1));
+  }
+  .timeline-item { position: relative; padding: 0 0 22px 24px; }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: ""; position: absolute; left: -9px; top: 6px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--panel-2); border: 2px solid var(--blue);
+    box-shadow: 0 0 0 3px rgba(90, 168, 255, 0.1);
+  }
+  .timeline-item:first-child::before {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(61, 220, 151, 0.12);
+  }
+  .timeline-head {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 8px; margin-bottom: 3px;
+  }
+  .timeline-date {
+    font-size: 12px; color: var(--blue);
+    letter-spacing: 0.04em; font-variant-numeric: tabular-nums;
+  }
+  .tag-latest {
+    font-size: 10.5px; color: var(--green);
+    border: 1px solid rgba(61, 220, 151, 0.3);
+    background: rgba(61, 220, 151, 0.08);
+    border-radius: 999px; padding: 0 7px;
+  }
+  .timeline-subject {
+    margin: 0; font-size: 13.5px; line-height: 1.65; color: #cfd9e8;
+  }
+  .timeline-empty { color: var(--faint); font-size: 13px; }
+  .next-card {
+    padding: 20px;
+    background:
+      linear-gradient(160deg, rgba(90, 168, 255, 0.08), rgba(61, 219, 198, 0.03) 45%, transparent),
+      var(--panel-2);
+    border: 1px solid var(--line); border-radius: var(--radius);
+  }
+  .next-list {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 20px;
+  }
+  .tip { position: relative; padding-left: 18px; }
+  .tip::before {
+    content: ""; position: absolute; left: 0; top: 6px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 0 4px rgba(61, 219, 198, 0.08);
+  }
+  .tip + .tip {
+    border-top: 1px dashed rgba(148, 163, 184, 0.14);
+    padding-top: 18px;
+  }
+  .tip-tag {
+    display: inline-block; font-size: 10.5px; color: var(--teal);
+    letter-spacing: 0.12em; margin-bottom: 4px;
+  }
+  .tip-title { margin: 0 0 6px; font-size: 14px; font-weight: 650; }
+  .tip-body {
+    margin: 0; font-size: 12.8px; line-height: 1.7; color: var(--muted);
+  }
+  .tip-body b {
+    color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums;
+  }
+  .tip-body code {
+    font-family: "Cascadia Code", Consolas, monospace;
+    font-size: 11.5px; color: #a5c8ff;
+    background: rgba(90, 168, 255, 0.08);
+    border: 1px solid rgba(90, 168, 255, 0.14);
+    border-radius: 4px; padding: 0 4px;
+  }
+  .footer {
+    display: flex; flex-wrap: wrap; justify-content: space-between;
+    gap: 8px; padding-top: 18px;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+    color: var(--faint); font-size: 12px;
+  }
+  @media (hover: hover) {
+    .stat-card:hover, .chapter-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(90, 168, 255, 0.3);
+    }
+  }
+  @media (max-width: 900px) {
+    .stat-grid, .chapter-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .columns { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .page { padding-left: 16px; padding-right: 16px; }
+    .stat-card { padding: 15px 14px; border-radius: 14px; }
+    .stat-value .num { font-size: 28px; }
+    .chapter-grid { grid-template-columns: 1fr; }
+    .chapter-card { min-height: 0; }
+    .date-v { font-size: 14px; }
+    .timeline { padding: 16px 14px 16px 14px; }
+    .timeline-item { padding-left: 22px; }
+    .timeline::before { left: 8px; }
+    .timeline-item::before { left: -13px; }
+    .next-card { padding: 16px 15px; }
+    .section-head h2 { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="hero">
+    <div class="hero-top">
+      <span class="eyebrow">LEARNING DASHBOARD</span>
+      <span class="pill">Python</span>
+    </div>
+    <h1>我的 Python 学习进度</h1>
+    <p class="hero-lead">把每一次练习都记下来，进度看得见。</p>
+    <p class="generated">生成时间 <time data-metric="generatedAt" datetime="2026-11-23T20:50:29+08:00">2026-11-23 20:50</time> · 数据来自 learning-data.json</p>
+  </header>
+
+  <section class="section" aria-labelledby="overview-heading">
+    <div class="section-head">
+      <h2 id="overview-heading">学习概览</h2>
+      <span class="section-note">全部来自 JSON 统计</span>
+    </div>
+    <div class="stat-grid">
+        <article class="stat-card">
+          <span class="stat-label">总文件数</span>
+          <strong class="stat-value"><span class="num" data-metric="totalFiles">11</span><small>个</small></strong>
+          <span class="stat-foot">.py 练习文件</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">总代码行数</span>
+          <strong class="stat-value"><span class="num" data-metric="totalLines">99</span><small>行</small></strong>
+          <span class="stat-foot">非空代码行</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">提交次数</span>
+          <strong class="stat-value"><span class="num" data-metric="commitCount">5</span><small>次</small></strong>
+          <span class="stat-foot">Git 提交记录</span>
+        </article>
+        <article class="stat-card stat-dates">
+          <span class="stat-label">提交时间</span>
+          <div class="date-pair">
+            <div class="date-item">
+              <span class="date-k">首次</span>
+              <time class="date-v" data-metric="firstCommit" datetime="2026-11-13">2026-11-13</time>
+            </div>
+            <div class="date-item">
+              <span class="date-k">最近</span>
+              <time class="date-v" data-metric="lastCommit" datetime="2026-11-22">2026-11-22</time>
+            </div>
+          </div>
+          <span class="stat-foot">Git 时间线两端</span>
+        </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="chapters-heading">
+    <div class="section-head">
+      <h2 id="chapters-heading">章节进度</h2>
+      <span class="section-note">已开始 <span data-metric="startedChapters">2</span> / <span data-metric="chapterCount">4</span> 个章节</span>
+    </div>
+    <div class="chapter-grid">
+        <article class="chapter-card" data-card="ch2">
+          <div class="chapter-top">
+            <h3 class="chapter-title">第2章 变量与简单数据类型</h3>
+            <span class="badge badge-live">进行中</span>
+          </div>
+          <div class="chapter-stats">
+            <div class="chapter-stat">
+              <span class="chapter-num" data-chapter="ch2" data-metric="fileCount">9</span>
+              <span class="chapter-unit">个文件</span>
+            </div>
+            <div class="chapter-stat">
+              <span class="chapter-num" data-chapter="ch2" data-metric="lines">63</span>
+              <span class="chapter-unit">行代码</span>
+            </div>
+          </div>
+          <div class="bar" role="progressbar" aria-label="第2章 变量与简单数据类型 代码行占比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="64">
+            <span class="bar-fill" style="width: 64%"></span>
+          </div>
+          <p class="chapter-share">占全部代码行 64%</p>
+        </article>
+        <article class="chapter-card" data-card="ch3">
+          <div class="chapter-top">
+            <h3 class="chapter-title">第3章 列表</h3>
+            <span class="badge badge-live">进行中</span>
+          </div>
+          <div class="chapter-stats">
+            <div class="chapter-stat">
+              <span class="chapter-num" data-chapter="ch3" data-metric="fileCount">2</span>
+              <span class="chapter-unit">个文件</span>
+            </div>
+            <div class="chapter-stat">
+              <span class="chapter-num" data-chapter="ch3" data-metric="lines">36</span>
+              <span class="chapter-unit">行代码</span>
+            </div>
+          </div>
+          <div class="bar" role="progressbar" aria-label="第3章 列表 代码行占比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="36">
+            <span class="bar-fill" style="width: 36%"></span>
+          </div>
+          <p class="chapter-share">占全部代码行 36%</p>
+        </article>
+        <article class="chapter-card is-empty" data-card="ch4">
+          <div class="chapter-top">
+            <h3 class="chapter-title">第4章 操作列表</h3>
+            <span class="badge badge-empty">未开始</span>
+          </div>
+          <div class="chapter-stats">
+            <div class="chapter-stat">
+              <span class="chapter-num" data-chapter="ch4" data-metric="fileCount">0</span>
+              <span class="chapter-unit">个文件</span>
+            </div>
+            <div class="chapter-stat">
+              <span class="chapter-num" data-chapter="ch4" data-metric="lines">0</span>
+              <span class="chapter-unit">行代码</span>
+            </div>
+          </div>
+          <div class="bar" role="progressbar" aria-label="第4章 操作列表 代码行占比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span class="bar-fill" style="width: 0%"></span>
+          </div>
+          <p class="chapter-share">还没有练习文件，等你开工</p>
+        </article>
+        <article class="chapter-card is-empty" data-card="uncategorized">
+          <div class="chapter-top">
+            <h3 class="chapter-title">未分类</h3>
+            <span class="badge badge-empty">未开始</span>
+          </div>
+          <div class="chapter-stats">
+            <div class="chapter-stat">
+              <span class="chapter-num" data-chapter="uncategorized" data-metric="fileCount">0</span>
+              <span class="chapter-unit">个文件</span>
+            </div>
+            <div class="chapter-stat">
+              <span class="chapter-num" data-chapter="uncategorized" data-metric="lines">0</span>
+              <span class="chapter-unit">行代码</span>
+            </div>
+          </div>
+          <div class="bar" role="progressbar" aria-label="未分类 代码行占比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span class="bar-fill" style="width: 0%"></span>
+          </div>
+          <p class="chapter-share">还没有练习文件，等你开工</p>
+        </article>
+    </div>
+  </section>
+
+  <div class="columns">
+    <section class="section" aria-labelledby="timeline-heading">
+      <div class="section-head">
+        <h2 id="timeline-heading">Git 提交时间线</h2>
+        <span class="section-note">最新在前</span>
+      </div>
+      <ol class="timeline">
+          <li class="timeline-item">
+            <div class="timeline-head">
+              <time class="timeline-date" datetime="2026-11-22">2026-11-22</time>
+              <span class="tag-latest">最新</span>
+            </div>
+            <p class="timeline-subject">练习：第 3 章 列表操作（修改、添加、删除元素）</p>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-head">
+              <time class="timeline-date" datetime="2026-11-21">2026-11-21</time>
+              
+            </div>
+            <p class="timeline-subject">完成第二章：变量、字符串、数、注释与 Python 之禅</p>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-head">
+              <time class="timeline-date" datetime="2026-11-21">2026-11-21</time>
+              
+            </div>
+            <p class="timeline-subject">练习：字符串方法与 removeprefix</p>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-head">
+              <time class="timeline-date" datetime="2026-11-21">2026-11-21</time>
+              
+            </div>
+            <p class="timeline-subject">练习：第 2 章 字符串方法与 f-string</p>
+          </li>
+          <li class="timeline-item">
+            <div class="timeline-head">
+              <time class="timeline-date" datetime="2026-11-13">2026-11-13</time>
+              
+            </div>
+            <p class="timeline-subject">第一个项目：开始学 Python</p>
+          </li>
+      </ol>
+    </section>
+
+    <section class="section" aria-labelledby="next-heading">
+      <div class="section-head">
+        <h2 id="next-heading">下一步建议</h2>
+        <span class="section-note">根据当前进度生成</span>
+      </div>
+      <div class="next-card">
+        <ol class="next-list">
+          <li class="tip">
+            <span class="tip-tag">优先</span>
+            <h3 class="tip-title">继续第 4 章「操作列表」</h3>
+            <p class="tip-body">这一章目前 <b>0 个文件 / 0 行</b>，状态是「未开始」。下一步先写 <code>for</code> 循环遍历列表、<code>range()</code> 生成数字列表和列表切片，各建一个练习文件放进 <code>practice/</code>。</p>
+          </li>
+          <li class="tip">
+            <span class="tip-tag">巩固</span>
+            <h3 class="tip-title">把列表基础再过一遍</h3>
+            <p class="tip-body">《第3章 列表》已有 <b>2 个文件 / 36 行</b>。进入新内容前，建议复习索引、切片和 <code>sort()</code> / <code>sorted()</code> 的区别，写循环时更容易一次跑通。</p>
+          </li>
+          <li class="tip">
+            <span class="tip-tag">归档</span>
+            <h3 class="tip-title">目录保持整洁</h3>
+            <p class="tip-body">没有未分类文件，说明练习文件都归到对应章节了，继续保持。</p>
+          </li>
+          <li class="tip">
+            <span class="tip-tag">打卡</span>
+            <h3 class="tip-title">练完就提交</h3>
+            <p class="tip-body">看板显示共 <b>5 次</b>提交，最近一次在 2026-11-22。写完练习随手 commit，时间线和进度才会更新。</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <span>我的 Python 学习进度 · 单文件离线看板</span>
+    <span>数据文件：learning-data.json</span>
+  </footer>
+</main>
+</body>
+</html>
